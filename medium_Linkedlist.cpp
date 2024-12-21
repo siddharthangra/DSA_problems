@@ -86,7 +86,47 @@ bool find_cycle(node* head){
 }
 */
 
+// Q5 Length of loop in linked list 
+// Forming LL with a loop
+node* loopLL(){
+    node* head  = new node(1);
+    node* second = new node(2);
+    head->next = second;
+    node* third = new node(3);
+    second->next = third;
+    node* fourth = new node(4);
+    node* fifth = new node(5);
+    third->next = fourth;
+    fourth->next = fifth;
+    node* sixth = new node(6);
+    fifth->next = sixth;
+    sixth->next = third;
+    return head;
+}
+//Solution 
+int length_of_loop(node* head){
+    node* ptr1 = head;
+    node* ptr2 = head;
+    int cnt1 = 1;
 
+    if(ptr1->next != NULL && ptr2->next->next != NULL){
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next->next;
+        cnt1 ++;
+    }
+    else  return 0;
+
+    while (ptr2->next != NULL && ptr1 != ptr2 && ptr2 != NULL)
+    {
+       ptr1 = ptr1->next;
+       ptr2  = ptr2->next->next;
+       cnt1 ++;
+    }
+    if( ptr2 == NULL || ptr2->next == NULL){
+        return 0;
+    }
+    else return cnt1 - 1;
+}
 
 
 
@@ -97,5 +137,7 @@ int main(){
     cout << el <<endl;;
     node* new_head = recursion(NULL,start_point);
     cout << new_head->data <<endl;
-    
+    node* Loop_start_point = loopLL();
+    int ans5 = length_of_loop(Loop_start_point);
+    cout << ans5 << endl;
 }
