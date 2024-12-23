@@ -127,6 +127,7 @@ int length_of_loop(node* head){
     }
     else return cnt1 - 1;
 }
+//Q6 Seggeragate even and odd nodes in LL
 
 
 
@@ -140,4 +141,5 @@ int main(){
     node* Loop_start_point = loopLL();
     int ans5 = length_of_loop(Loop_start_point);
     cout << ans5 << endl;
+    
 }
