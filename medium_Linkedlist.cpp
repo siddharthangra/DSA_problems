@@ -128,18 +128,72 @@ int length_of_loop(node* head){
     else return cnt1 - 1;
 }
 //Q6 Seggeragate even and odd nodes in LL
+node* segoddeven(node* head){
+    node* curr = head;
+    node* oddhead = new node(0);
+    node* evenhead = new node(0);
+    node* oddtail = oddhead;
+    node* eventail = evenhead;
 
+    while(curr != nullptr){
+        if(curr->data & 1){
+            oddtail->next = curr;
+            oddtail = oddtail->next;
+            curr = curr->next;
+            oddtail->next = nullptr;
+        }
+        else{
+            eventail->next = curr;
+            eventail = curr;
+            curr = curr->next;
+            eventail->next = nullptr;
+        }
+    }
+    eventail->next = oddhead->next;
+    head = evenhead->next;
+    delete oddhead;
+    delete evenhead;
+    return head;
+}
+//Printing the new LL
+void print(node* head){
+    node *temp = head;
+    while(temp!=NULL){
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
 
+//Q7deleting middle node of ll
+node* deletemiddlenode(node * head){
+    node* fast = head;
+    node* slow = head;
+    fast = head->next->next;
+    while(fast != nullptr && fast->next != nullptr){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    slow->next = slow->next->next;
+    return head;
 
+}
 int main(){
     vector<int> arr = {1,2,3,4,5,6,7,8};
     node* start_point = str2LL(arr);
+    /*
     int el = mid_el(start_point);
     cout << el <<endl;;
     node* new_head = recursion(NULL,start_point);
     cout << new_head->data <<endl;
     node* Loop_start_point = loopLL();
     int ans5 = length_of_loop(Loop_start_point);
-    cout << ans5 << endl;
+    cout << ans5 << endl; 
+    node* start_pointn = segoddeven(start_point);
+    print(start_pointn);
+    */
+    
+    node* newhead = deletemiddlenode(start_point);
+    print(newhead);
     
 }
