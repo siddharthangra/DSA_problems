@@ -178,8 +178,76 @@ node* deletemiddlenode(node * head){
     return head;
 
 }
+
+// Q8 Sorting LL
+//algo for finding middle element
+node* findmiddle(node* head){
+    node* slow = head;
+    node* fast = head;
+    if(head->next == NULL){
+        return head;
+    }
+    else{
+        fast = fast->next->next;
+        while(fast != NULL || fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+    }
+    return slow;
+}
+// algo for merging
+node* merge(node* lefthead, node* righthead){
+    node* tempL = lefthead;
+    node* tempR = righthead;
+    node* temp;
+    node* head;
+
+    if(lefthead->data < righthead->data){
+        head = lefthead;
+    }else head = righthead;
+
+    while(tempL != NULL || tempR != NULL){
+        if(tempR->data < tempL->data){
+            while(tempR != NULL || tempR->data < tempL->data){
+                temp = tempR;
+                tempR = tempR->next;
+            }
+            temp->next = tempL;
+        }
+        else{
+            while(tempL != NULL || tempL->data < tempR->data ){
+                temp = tempL;
+                tempL = tempL->next;
+            }
+            temp->next = tempL;
+        }
+
+    }
+
+    return head;
+}
+node* sortLL( node* head){
+    node* lefthead;
+    node* righthead;
+    if(head->next == NULL){
+        return head;
+    }
+    else{
+        node* middle = findmiddle(head);
+        lefthead = head;
+        righthead = middle->next;
+        middle->next = NULL;
+        lefthead = sortLL(lefthead);
+        righthead = sortLL(righthead);
+    }
+
+    return merge(lefthead, righthead);
+}
+
+
 int main(){
-    vector<int> arr = {1,2,3,4,5,6,7,8};
+    vector<int> arr = {3,2,5,4,1,6,8,7};
     node* start_point = str2LL(arr);
     /*
     int el = mid_el(start_point);
@@ -191,9 +259,11 @@ int main(){
     cout << ans5 << endl; 
     node* start_pointn = segoddeven(start_point);
     print(start_pointn);
-    */
-    
     node* newhead = deletemiddlenode(start_point);
     print(newhead);
+    */
+   node* sorted_head = sortLL(start_point);
+   print(sorted_head);
+
     
 }
