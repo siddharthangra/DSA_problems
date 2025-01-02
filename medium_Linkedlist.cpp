@@ -245,10 +245,49 @@ node* sortLL( node* head){
     return merge(lefthead, righthead);
 }
 
+// Q9 sorting LL of 0s,1s and 2s
+node* sort012(node* head){
+    node* zeroeshead = new node(-1);
+    node* zeroestail = zeroeshead;
+    node* oneshead = new node(-1);
+    node* onestail = oneshead;
+    node* twoshead = new node(-1);
+    node* twostail = twoshead;
+    node* temp = head;
+
+    while(temp != NULL){
+        switch(temp->data)
+        {
+        case 1:
+            onestail->next = temp;
+            onestail = temp;
+            temp = temp->next;
+            break;
+        case 0:
+            zeroestail->next = temp;
+            zeroestail = temp;
+            temp = temp->next;
+            break;
+        case 2:
+            twostail->next = temp;
+            twostail = temp;
+            temp = temp->next;
+            break;
+        default:
+            break;
+        }
+    }
+    zeroestail->next = oneshead->next;
+    onestail->next = twoshead->next;
+    return zeroeshead->next;
+
+}
 
 int main(){
+    /*
     vector<int> arr = {3,2,5,4,1,6,8,7};
     node* start_point = str2LL(arr);
+    */
     /*
     int el = mid_el(start_point);
     cout << el <<endl;;
@@ -261,9 +300,14 @@ int main(){
     print(start_pointn);
     node* newhead = deletemiddlenode(start_point);
     print(newhead);
+    node* sorted_head = sortLL(start_point);
+    print(sorted_head);
     */
-   node* sorted_head = sortLL(start_point);
-   print(sorted_head);
+   /*
+   vector<int> arr= {0,1,0,2,1,0,2,2,1,0,2};
+   node* startpoint = str2LL(arr);
+   node* sortedhead = sort012(startpoint);
+   print(sortedhead); */
+   
 
-    
 }
