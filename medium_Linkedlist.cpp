@@ -282,6 +282,8 @@ node* sort012(node* head){
     return zeroeshead->next;
 
 }
+//HARD LL Q
+// Q1
 
 int main(){
     /*
