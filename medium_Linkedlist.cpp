@@ -283,8 +283,109 @@ node* sort012(node* head){
 
 }
 //HARD LL Q
-// Q1
+// Q1 Rotate a LL
+node* rotate_by_k(node* head, int k){
+    int cnt = 1;
+    node* count = head;
+    while(count->next != NULL){
+        cnt ++;
+        count = count->next;
+    }
+    int iteration;
+    if(k <= cnt ){iteration = cnt - k;}
+    else{iteration = cnt - (k% cnt); }
 
+    count->next = head;
+    node* dummyhead = count->next;
+    while(iteration != 0){
+        iteration -- ;
+        count = count->next;
+        dummyhead = count->next;
+
+    }
+
+    count->next = NULL;
+    return dummyhead;
+} // time complexity = o(n);
+
+//Q2 Flattening a LL
+// Constructing LL base for the problem in hand
+class node2{
+    public:
+    int data;
+    node2* next;
+    child* childpointer;
+
+    public:
+    node2(int data1, node2* next1, child* childpointer1){
+        data = data1;
+        next = next1;
+        childpointer = childpointer1;
+    }
+
+    public:
+    node2(int data1){
+        data = data1;
+        next = NULL;
+        childpointer = NULL;
+    }
+
+};
+
+class child{
+    public:
+    int data;
+    child* next;
+
+    public:
+    child(int data1, child* next1){
+        data = data1;
+        next = next1;
+    }
+
+    public:
+    child(int data1){
+        data = data1;
+        next = NULL;
+    }
+
+};
+
+// Making the LL
+node2* unflattenedLL(){
+    node2* parent1 = new node2(3);
+    node2* parent2 = new node2(2);
+    node2* parent3 = new node2(1);
+    node2* parent4 = new node2(4);
+    node2* parent5 = new node2(5);
+
+    parent1->next = parent2;
+    parent2->next = parent3;
+    parent3->next = parent4;
+    parent4->next = parent5;
+
+    child* child1 = new child(10);
+    child* child2 = new child(7);
+    child* child3 = new child(11);
+    child* child4 = new child(12);
+    child* child5 = new child(9);
+    child* child6 = new child(6);
+    child* child7 = new child(8);
+
+    parent2->childpointer = child1;
+    
+    parent3->childpointer = child2;
+    child2->next = child3;
+    child3->next = child4;
+
+    parent4->childpointer = child5;
+
+    parent5->childpointer = child6;
+    child6->next = child7;
+
+    return parent1;
+
+}
 int main(){
     /*
     vector<int> arr = {3,2,5,4,1,6,8,7};
@@ -310,6 +411,12 @@ int main(){
    node* startpoint = str2LL(arr);
    node* sortedhead = sort012(startpoint);
    print(sortedhead); */
-   
+   /*
+    vector<int> arr = {1,2,3,4,5,6,7};
+    node* start_point = str2LL(arr);
+    node* newhead = rotate_by_k(start_point,300);
+    print(newhead);
+*/
+
 
 }
