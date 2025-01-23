@@ -314,42 +314,24 @@ class node2{
     public:
     int data;
     node2* next;
-    child* childpointer;
+    node2* child;
 
     public:
-    node2(int data1, node2* next1, child* childpointer1){
+    node2(int data1, node2* next1, node2* child1){
         data = data1;
         next = next1;
-        childpointer = childpointer1;
+        child = child1;
     }
 
     public:
     node2(int data1){
         data = data1;
         next = NULL;
-        childpointer = NULL;
+        child = NULL;
     }
 
 };
 
-class child{
-    public:
-    int data;
-    child* next;
-
-    public:
-    child(int data1, child* next1){
-        data = data1;
-        next = next1;
-    }
-
-    public:
-    child(int data1){
-        data = data1;
-        next = NULL;
-    }
-
-};
 
 // Making the LL
 node2* unflattenedLL(){
@@ -364,28 +346,106 @@ node2* unflattenedLL(){
     parent3->next = parent4;
     parent4->next = parent5;
 
-    child* child1 = new child(10);
-    child* child2 = new child(7);
-    child* child3 = new child(11);
-    child* child4 = new child(12);
-    child* child5 = new child(9);
-    child* child6 = new child(6);
-    child* child7 = new child(8);
+    node2* child1 = new node2(10);
+    node2* child2 = new node2(7);
+    node2* child3 = new node2(11);
+    node2* child4 = new node2(12);
+    node2* child5 = new node2(9);
+    node2* child6 = new node2(6);
+    node2* child7 = new node2(8);
 
-    parent2->childpointer = child1;
+    parent2->child = child1;
     
-    parent3->childpointer = child2;
-    child2->next = child3;
-    child3->next = child4;
+    parent3->child = child2;
+    child2->child = child3;
+    child3->child = child4;
 
-    parent4->childpointer = child5;
+    parent4->child = child5;
 
-    parent5->childpointer = child6;
-    child6->next = child7;
+    parent5->child = child6;
+    child6->child = child7;
 
     return parent1;
+}
+node2* flattenLL(node2* head){
+    node2* temp = head;
+    while(temp != NULL){
+        node2* curr = temp;
+        while(curr->child != NULL){
+            curr = curr->child;
+        }
+        curr->child = temp->next;
+        temp->next = NULL;
+        temp = curr->child;
+    }
+}
+//sorting this flattenedLL
+node2* findmiddlenode2(node2* head){
+    node2* slow = head;
+    node2* fast = head;
+    if(head->child == NULL ){
+        return head;
+    }
+    else{
+        fast = fast->child->child;
+        while(fast!= NULL || fast->child != NULL){
+            slow = slow->child;
+            fast = fast->child->child;
+        }
+    }
+    return slow;
+}
+node2* mergeflattenedLL(node2* lefthead, node2* righthead){
+    node2* tempL = lefthead;
+    node2* tempR = righthead;
+    node2* temp;
+    node2* head;
+
+    if(lefthead->data <= righthead->data){
+        head = lefthead;
+    }else { head = righthead;}
+
+    while(tempL != NULL || tempR != NULL){
+        if(tempL->data <= tempR->data){
+            temp = tempL;
+            while(tempL->data <= tempR->data){
+                temp = tempL;
+                tempL = tempL->child;
+            }
+            temp->child = tempR;
+        }
+        else{
+            temp = tempR;
+            while(tempR->data < tempL->data){
+                temp = tempR;
+                tempR = tempR->child;
+            }
+            temp->child = tempL;
+        }
+    }
+
+    return head;
+}
+node2* sortflattenedLL(node2* head){
+    node2* lefthead;
+    node2* righthead;
+    if(head->child == NULL){
+        return head;
+    }
+    else{
+        node2* middle = findmiddlenode2(head);
+        lefthead = head;
+        righthead = middle->child;
+        middle->child = NULL;
+        sortflattenedLL(lefthead);
+        sortflattenedLL(righthead);
+    }
+
+    mergeflattenedLL(lefthead, righthead);
 
 }
+//Q3 clone a LL with random and next pointer
+
 int main(){
     /*
     vector<int> arr = {3,2,5,4,1,6,8,7};
