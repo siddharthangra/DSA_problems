@@ -444,7 +444,6 @@ node2* sortflattenedLL(node2* head){
     mergeflattenedLL(lefthead, righthead);
 
 }
-//Q3 clone a LL with random and next pointer
 
 int main(){
     /*
